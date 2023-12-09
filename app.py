@@ -1,5 +1,6 @@
 from flask import Flask, render_template , request , jsonify, send_file
 from PIL import Image
+import csv
 import os , io , sys
 import numpy as np 
 import cv2
@@ -44,8 +45,21 @@ def mask_image():
         'ID': last_detection_result['ID'],
         'time': last_detection_result['time']
     }
+	save_to_csv(response_data)
 	return jsonify(response_data)
 
+def save_to_csv(data):
+    csv_path = 'D:\Learning\container\history.csv'
+    fieldnames = ['ID', 'time']
+    mode = 'a' if os.path.exists(csv_path) else 'w'
+
+    with open(csv_path, mode, newline='', encoding='utf-8') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+        if mode == 'w':
+            writer.writeheader()
+
+        writer.writerow({'ID': data['ID'], 'time': data['time']})
 ##################################################### THE REAL DEAL HAPPENS ABOVE ######################################
 
 @app.route('/test' , methods=['GET','POST'])
@@ -53,6 +67,20 @@ def test():
 	print("log: got at test" , file=sys.stderr)
 	return jsonify({'status':'succces'})
 
+@app.route('/history')
+def history():
+    csv_path = 'D:\Learning\container\history.csv'
+    data = read_csv(csv_path)
+    return render_template('history.html', data=data)
+    
+def read_csv(csv_path):
+    data = []
+    if os.path.exists(csv_path):
+        with open(csv_path, 'r', encoding='utf-8') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                data.append(row)
+    return data
 
 @app.route('/')
 def home():

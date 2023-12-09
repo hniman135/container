@@ -93,3 +93,8 @@ p{
         background-color: #4CAF50;
         color: white;
     }
+
+#logbutton {
+      position: absolute; /* Position absolute for fine-tuning */
+      bottom: 10px; /* Adjust as needed */
+      right: 10px; /* Adjust as needed */}

@@ -27,6 +27,10 @@ window.onload = () => {
 			});
 		}
 	});
+	$('#logbutton').click(() => {
+        // Redirect to the /history route
+        window.open("http://127.0.0.1:5000/history", "_blank");
+    });
 };
 
 function displayIDAndTime(data) {
