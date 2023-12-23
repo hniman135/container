@@ -1,52 +1,123 @@
-from flask import Flask, render_template , request , jsonify, send_file
+from flask import Flask, render_template , request , jsonify, send_file, make_response
 from PIL import Image
 import csv
 import os , io , sys
 import numpy as np 
 import cv2
 import base64
+import json
 from yolo_detection_images import runModel
 from datetime import datetime
-last_detection_result = None
+from pymongo import MongoClient
+last_detection_results = None
 app = Flask(__name__)
+# MongoDB and GridFS setup
+client = MongoClient('mongodb://localhost:27017/')
+db = client['Container']
+collection = db['log']
+
 
 ############################################## THE REAL DEAL ###############################################
 @app.route('/detectObject' , methods=['POST'])
 def mask_image():
-	global last_detection_result
-	# print(request.files , file=sys.stderr)
-	file = request.files['image'].read() ## byte file
-	npimg = np.fromstring(file, np.uint8)
-	img = cv2.imdecode(npimg,cv2.IMREAD_COLOR)
-	######### Do preprocessing here ################
-	# img[img > 150] = 0
-	## any random stuff do here
-	################################################
+    global last_detection_results
+    
+    img_files = request.files.getlist('image')
+    results = []
+    ID_nums = []
+    
+    for index, img_file in enumerate(img_files):
+        img = load_image_from_request(img_file)
+        ##################################### THAY ĐOAN NAY BANG MODEL DETECT ID
+        if index == 0:
+            id = run_ID_detection(img)
+            doc_path = 'D:\Learning\container\detect_result.txt'
+            with open(doc_path, 'r', encoding='utf-8') as file:
+                content = file.read()
+            last_ID_result = get_ID_result(content)
+            ID_nums.append(last_ID_result)
+            
+            for ID_num in ID_nums:
+                ID_data = {
+                    'ID': ID_num['ID'],
+                    'time': ID_num['time']
+                }
+            save_to_csv(ID_data)
+        unique_id = ID_nums[0]['ID'] if ID_nums else 'default_id'
+        unique_time = ID_nums[0]['time'] if ID_nums else datetime.now().isoformat()
+        #####################################
+        img = run_object_detection(img)
+         # Convert both original and processed images to base64
 
-	img = runModel(img)
+        # Get current time
+        current_time = datetime.now().isoformat()
+        img_base64 = save_image_to_base64(img)
 
-	img = Image.fromarray(img.astype("uint8"))
-	rawBytes = io.BytesIO()
-	img.save(rawBytes, "JPEG")
-	rawBytes.seek(0)
-	img_base64 = base64.b64encode(rawBytes.read())
- 
-	doc_path = 'D:\Learning\container\detect_result.txt'
-	with open(doc_path, 'r', encoding='utf-8') as file:
-		content = file.read()
-	parts = content.split()
-	last_detection_result = {
+        doc_path = 'D:\Learning\container\detect_result.txt'
+        with open(doc_path, 'r', encoding='utf-8') as file:
+            content = file.read()
+
+        last_detection_result = get_last_detection_result(content, img_base64)
+        results.append(last_detection_result)
+    
+        # MongoDB document
+        for result in results:
+            document = {
+                "ID": result['ID'],  # Replace with actual ID
+                "Time": result['time'],
+                "PostProcessedImage": result['status']
+            }
+
+            # Insert into MongoDB
+            collection.insert_one(document)
+
+
+    
+    response = {
+        'ID': unique_id,
+        'time': unique_time,
+        'images': [{'status': str(result['status'])} for result in results]
+    }
+
+    return jsonify(response)
+
+def load_image_from_request(file):
+    npimg = np.fromstring(file.read(), np.uint8)
+    img = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
+    return img
+
+def run_object_detection(img):
+    # Run your object detection model
+    img = runModel(img)
+    return img
+
+def run_ID_detection(img):
+    return img
+def save_image_to_base64(img):
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    img = Image.fromarray(img.astype("uint8"))
+    rawBytes = io.BytesIO()
+    img.save(rawBytes, "JPEG")
+    rawBytes.seek(0)
+    img_base64 = base64.b64encode(rawBytes.read())
+    return img_base64
+
+def get_last_detection_result(content, img_base64):
+    parts = content.split()
+    return {
         'status': str(img_base64),
         'ID': parts[1],  # You can replace this with the actual ID
         'time': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     }
-	response_data = {
-        'status': str(img_base64),
-        'ID': last_detection_result['ID'],
-        'time': last_detection_result['time']
+
+def get_ID_result(content):
+    parts = content.split()
+    return {
+        'ID': parts[1],  # You can replace this with the actual ID
+        'time': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     }
-	save_to_csv(response_data)
-	return jsonify(response_data)
+
+# The rest of your code remains unchanged
 
 def save_to_csv(data):
     csv_path = 'D:\Learning\container\history.csv'
@@ -58,14 +129,14 @@ def save_to_csv(data):
 
         if mode == 'w':
             writer.writeheader()
-
+        print("data:", data)
+        for key, value in data.items():
+            print(f"{key}: {value}")
         writer.writerow({'ID': data['ID'], 'time': data['time']})
+
 ##################################################### THE REAL DEAL HAPPENS ABOVE ######################################
 
-@app.route('/test' , methods=['GET','POST'])
-def test():
-	print("log: got at test" , file=sys.stderr)
-	return jsonify({'status':'succces'})
+
 
 @app.route('/history')
 def history():

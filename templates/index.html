@@ -1,7 +1,9 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title>Nhan dien loi CONTAINER</title>
+  <meta charset="UTF-8">
+  <title>NHAN DIEN LOI CONTAINER</title>
 	<link rel="stylesheet" type="text/css" href="../static/index.css">
 	<script
 			  src="https://code.jquery.com/jquery-3.3.1.min.js"
@@ -11,7 +13,18 @@
   
 </head>
 <body>
+  <div class="header">
+        
+    <div class="project-info-head">
+        <div class="project-info-head-text">
+            <div id="UIT_text">University of Information Technology - VNUHCM</div>
+            <div id="IdentifyContainerErrors_text">Identify container errors</div>
+        </div>
+    </div>
 
+
+
+  </div>
 
 
 <div class='App'>
@@ -19,15 +32,38 @@
         <p><b>
           NHAN DIEN LOI CONTAINER
         </b></p>
-        <div className="pre_img">
-          <span><img id="imagebox" src=""></span>
-        </div>
+
         <form>
-          <input id="imageinput" type="file" name="image" onchange="readUrl(this)">
+          <input id="imageinput" type="file" name="image" onchange="readUrl(this)" multiple>
         </form>
 			<button name="send" id = "sendbutton">Send</button>
       <button name="log" id="logbutton">Log</button>
 	</header>
+</div>
+
+<div class="column">
+  <div class="image-box" id="image-box-1">
+      <p class="box-label">Ảnh 1</p>
+  </div>
+  <div class="image-box" id="image-box-4">
+      <p class="box-label">Ảnh 4</p>
+  </div>
+</div>
+<div class="column">
+  <div class="image-box" id="image-box-2">
+      <p class="box-label">Ảnh 2</p>
+  </div>
+  <div class="image-box" id="image-box-5">
+      <p class="box-label">Ảnh 5</p>
+  </div>
+</div>
+<div class="column">
+  <div class="image-box" id="image-box-3">
+      <p class="box-label">Ảnh 3</p>
+  </div>
+  <div class="image-box" id="image-box-6">
+      <p class="box-label">Ảnh 6</p>
+  </div>
 </div>
 
 <div class="table-container">
@@ -55,5 +91,31 @@
   </table>
 </div>
 
+<div class="footer">
+
+  <div class="CE-info-foot">
+      <div class="CE-info-foot-text">
+          <div id="CE-text">CE</div>
+          <div id="yellow-line"></div>
+          <div id="FacultyofComputerEngineering_text">Faculty of Computer Engineering</div>
+          <div id="UIT-VNUHCM_text">UIT - VNUHCM</div>
+      </div>
+  </div>
+  
+  
+  <div class="UIT-info-foot">
+      <div id="DHCNTT_text">TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN</div>
+      <div id="DHQGHCM_text">ĐẠI HỌC QUỐC GIA THÀNH PHỐ HỒ CHÍ MINH</div>
+      <div id="COPYRIGHT_text">© COPYRIGHT  UITFarmer - CE 2023.</div>
+  </div>
+
+  <div class="UIT-contact">
+      
+      <div class="UIT-contact_text">
+          <div id="address">KP6, Linh Trung, Thủ Đức, Tp.HCM</div>
+          <div id="team-mail">UITFarmer.K15@gmail.com</div>
+      </div>
+  </div>
+</div>
 </body>
 </html>

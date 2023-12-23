@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Nhan dien loi CONTAINER</title>
+	<link rel="stylesheet" type="text/css" href="../static/index.css">
+	<script
+			  src="https://code.jquery.com/jquery-3.3.1.min.js"
+			  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+			  crossorigin="anonymous"></script>
+	<script type="text/javascript" src="../static/index.js"></script>
+  
+</head>
+<body>
+
+
+
+<div class='App'>
+    <header class='App-header'>
+        <p><b>
+          NHAN DIEN LOI CONTAINER
+        </b></p>
+        <div className="pre_img">
+          <span><img id="imagebox" src=""></span>
+        </div>
+        <form>
+          <input id="imageinput" type="file" name="image" onchange="readUrl(this)">
+        </form>
+			<button name="send" id = "sendbutton">Send</button>
+      <button name="log" id="logbutton">Log</button>
+	</header>
+</div>
+
+<!--
+<div class="column">
+  <div class="image-box" id="image-box-1">
+      <p class="box-label">Ảnh 1</p>
+  </div>
+  <div class="image-box" id="image-box-4">
+      <p class="box-label">Ảnh 4</p>
+  </div>
+</div>
+<div class="column">
+  <div class="image-box" id="image-box-2">
+      <p class="box-label">Ảnh 2</p>
+  </div>
+  <div class="image-box" id="image-box-5">
+      <p class="box-label">Ảnh 5</p>
+  </div>
+</div>
+<div class="column">
+  <div class="image-box" id="image-box-3">
+      <p class="box-label">Ảnh 3</p>
+  </div>
+  <div class="image-box" id="image-box-6">
+      <p class="box-label">Ảnh 6</p>
+  </div>
+</div>
+-->
+
+
+
+<div class="table-container">
+  <table>
+      <thead>
+          <tr>
+              <th>Header 1</th>
+              <th>Thong tin Container</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr>
+              <td>ID</td>
+              <td id ="ID"></td>
+          </tr>
+          <tr>
+              <td>Date</td>
+              <td id ="time"></td>
+          </tr>
+          <tr>
+              <td>PASS</td>
+              <td>YES</td>
+          </tr>
+      </tbody>
+  </table>
+</div>
+
+</body>
+</html>
