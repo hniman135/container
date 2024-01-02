@@ -8,7 +8,7 @@ body, html {
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  min-height: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -21,7 +21,20 @@ body, html {
   color: #61dafb;
 }
 
+.button-container {
+    text-align: center; /* Center align the container */
+    padding: 20px; /* Add some padding around the buttons */
+}
 
+.center-button {
+    display: inline-block; /* Align to the center */
+}
+
+.right-button {
+  position: absolute; /* Position the right button absolutely within the container */
+  right: 0; /* Align to the right */
+  transform: translateY(-50%); /* Adjust vertical alignment */
+}
 
 .pre_img{
   height: 600px;
@@ -29,20 +42,7 @@ body, html {
   /* background-color: white; */
 }
 
-input[type=file]{
-  background-color: #4CAF50;
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-  margin: 40px 40px;
-  /* display: none; */
 
-}
 
 #pre{
   background-color: #4CAF50; /* Green */
@@ -96,11 +96,7 @@ th {
     color: white;
 }
 
-#logbutton {
-      position: absolute; /* Position absolute for fine-tuning */
-      bottom: 10px; /* Adjust as needed */
-      right: 10px; /* Adjust as needed */
-    }
+
 
 .column {
   float: left;
@@ -119,14 +115,13 @@ th {
 }
 
 .box-label {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    margin: 0;
-    padding: 5px;
-    background-color: #333;
-    color: white;
+  position: absolute;
+  bottom: 0;
+  right: 0; /* Align to the right */
+  margin: 0;
+  padding: 5px;
+  background-color: #333;
+  color: white;
 }
 .processed-image {
   max-width: 200px;  /* or any specific width */

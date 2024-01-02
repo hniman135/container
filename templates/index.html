@@ -32,38 +32,45 @@
         <p><b>
           NHAN DIEN LOI CONTAINER
         </b></p>
-
-        <form>
-          <input id="imageinput" type="file" name="image" onchange="readUrl(this)" multiple>
-        </form>
-			<button name="send" id = "sendbutton">Send</button>
-      <button name="log" id="logbutton">Log</button>
+	    
 	</header>
 </div>
 
 <div class="column">
-  <div class="image-box" id="image-box-1">
-      <p class="box-label">Ảnh 1</p>
-  </div>
-  <div class="image-box" id="image-box-4">
-      <p class="box-label">Ảnh 4</p>
-  </div>
+    <div class="image-box" id="image-box-1">
+        <p class="box-label">Mặt cửa</p>
+        <input type="file" name="image1" onchange="readUrl(this, 1)">
+        <div id="preview-image-box-1"></div>
+    </div>
+    <div class="image-box" id="image-box-4">
+        <p class="box-label">Mặt sau</p>
+        <input type="file" name="image4" onchange="readUrl(this, 4)">
+        <div id="preview-image-box-4"></div>
+    </div>
 </div>
 <div class="column">
-  <div class="image-box" id="image-box-2">
-      <p class="box-label">Ảnh 2</p>
-  </div>
-  <div class="image-box" id="image-box-5">
-      <p class="box-label">Ảnh 5</p>
-  </div>
+    <div class="image-box" id="image-box-2">
+        <p class="box-label">Mặt trái</p>
+        <input type="file" name="image2" onchange="readUrl(this, 2)">
+        <div id="preview-image-box-2"></div>
+    </div>
+    <div class="image-box" id="image-box-5">
+        <p class="box-label">Mặt trên</p>
+        <input type="file" name="image5" onchange="readUrl(this, 5)">
+        <div id="preview-image-box-5"></div>
+    </div>
 </div>
 <div class="column">
-  <div class="image-box" id="image-box-3">
-      <p class="box-label">Ảnh 3</p>
-  </div>
-  <div class="image-box" id="image-box-6">
-      <p class="box-label">Ảnh 6</p>
-  </div>
+    <div class="image-box" id="image-box-3">
+        <p class="box-label">Mặt phải</p>
+        <input type="file" name="image3" onchange="readUrl(this, 3)">
+        <div id="preview-image-box-3"></div>
+    </div>
+    <div class="image-box" id="image-box-6">
+        <p class="box-label">Mặt dưới</p>
+        <input type="file" name="image6" onchange="readUrl(this, 6)">
+        <div id="preview-image-box-6"></div>
+    </div>
 </div>
 
 <div class="table-container">
@@ -90,7 +97,10 @@
       </tbody>
   </table>
 </div>
-
+<div class='button-container'>
+    <button name="send" id="sendbutton" class="center-button">Send</button>
+    <button name="log" id="logbutton" class="right-button">Log</button>
+</div>
 <div class="footer">
 
   <div class="CE-info-foot">
